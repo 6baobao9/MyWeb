@@ -1,6 +1,8 @@
 package com.wy.springtest.aop;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -36,6 +38,20 @@ public class TestAop {
         logger.info("class={} and method name = {}", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
         //参数
         logger.info("参数={}", joinPoint.getArgs());
+    }
+
+    @Around("log()")
+    public Object doAround(ProceedingJoinPoint point) throws Throwable {
+        Object result;
+
+        try {
+            result = point.proceed();
+        } catch (Throwable throwable) {
+            logger.error(throwable.getMessage());
+            throw throwable;
+        }
+
+        return result;
     }
 
 }

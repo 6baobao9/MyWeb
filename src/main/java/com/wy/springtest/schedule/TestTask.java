@@ -34,6 +34,4 @@ public class TestTask {
     public void schedule3() {
         logger.info("定时任务：每5秒执行一次");
     }
-
-
 }
