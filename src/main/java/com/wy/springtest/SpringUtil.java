@@ -5,6 +5,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+/**
+ * Spring工具类，可全局获取ApplicationContext，调用getBean
+ */
 @Component
 public class SpringUtil implements ApplicationContextAware {
     public static ApplicationContext getApplicationContext() {
