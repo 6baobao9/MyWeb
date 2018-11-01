@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.xml.ws.Endpoint;
+
 // 表示当前类为配置类，@Bean的返回值将被放入Spring容器中
 @Configuration
 public class CxfConfig {
