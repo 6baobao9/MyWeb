@@ -10,7 +10,7 @@ import javax.jws.WebService;
 
 @Component(value = "helloService")
 // 修改接口命名空间
-@WebService(name = "helloService", targetNamespace = "http://service.wy.com")
+@WebService(name = "helloService", serviceName = "HelloService", targetNamespace = "http://service.wy.com")
 public class HelloService {
     @WebMethod
     public String say(@WebParam(name = "name") String name) {
