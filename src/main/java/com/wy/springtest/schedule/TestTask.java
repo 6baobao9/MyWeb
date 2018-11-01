@@ -1,7 +1,7 @@
 package com.wy.springtest.schedule;
 
-import org.apache.juli.logging.Log;
-import org.apache.juli.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 // 开启spring定时任务
 @EnableScheduling
 public class TestTask {
-    private static Log logger = LogFactory.getLog(TestTask.class);
+    private static Logger logger = LoggerFactory.getLogger(TestTask.class);
 
     @Scheduled(cron = "0 * * * * ?")
     public void schedule1() {
