@@ -13,8 +13,10 @@ public class UserService {
         user.setPass("123456");
         user.setEnable(true);
         user.setLocked(false);
-
         List<String> role = new ArrayList<>();
+        if ("admin".equals(name)) {
+            role.add("ADMIN");
+        }
         user.setRoles(role);
         return user;
     }

@@ -28,20 +28,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         //  允许所有用户访问"/"和"/index.html"
         http.authorizeRequests()
-                .antMatchers("/", "/index.html", "/resources/image/error/*")
-                .permitAll()
+                .antMatchers("/", "/index", "/resources/image/error/*").permitAll()
+                .antMatchers("/service/*").permitAll()  // 开放webservice权限
                 .anyRequest()
                 .authenticated()   // 其他地址的访问均需验证权限
                 .and()
                 .formLogin()
-                .loginPage("/login")  //  登录页
+                .loginPage("/login")  // 登录页
                 .usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/index")
                 .failureUrl("/login-error")
                 .permitAll()
                 .and()
                 .logout()
-                // 如开启CSRF，此处需以POST方式请求
-                .logoutUrl("/j_spring_security_logout")
+                .logoutUrl("/j_spring_security_logout") // 如开启CSRF，此处需以POST方式请求
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .clearAuthentication(true)
@@ -52,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         //这里是新增一个默认用户
-        auth.inMemoryAuthentication().withUser("admin").password("123456").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("admin").password("123456").roles("ADMIN").authorities("ADMIN");
     }
 
     @Override
