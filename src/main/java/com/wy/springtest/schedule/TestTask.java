@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 /**
  * 定时任务demo
  */
-@Configuration
+//@Configuration
 // 开启spring定时任务
 @EnableScheduling
 public class TestTask {
