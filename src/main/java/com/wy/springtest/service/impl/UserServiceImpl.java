@@ -29,4 +29,11 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public User queryUserByAccount(String account) {
+        User user = userMapper.selectByAccount(account);
+
+        return user;
+    }
 }

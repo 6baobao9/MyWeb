@@ -13,11 +13,11 @@ public class UserCheckService {
     @Autowired
     UserService userService;
 
-    public User getUserByName(String name) {
-        User user = userService.queryUserByName(name);
+    public User getUserByName(String account) {
+        User user = userService.queryUserByAccount(account);
 
         List<String> role = new ArrayList<>();
-        if ("admin".equals(name)) {
+        if ("admin".equals(account)) {
             role.add("ADMIN");
         }
         user.setAuthorities(role);
