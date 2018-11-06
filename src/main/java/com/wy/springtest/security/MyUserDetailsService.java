@@ -14,17 +14,17 @@ import java.util.List;
 @Component
 public class MyUserDetailsService implements UserDetailsService {
     @Autowired
-    UserService userService;
+    UserCheckService userCheckService;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        SpringUser sysUser = userService.getUserByName(s);
+        com.wy.springtest.data.model.User sysUser = userCheckService.getUserByName(s);
         if (null == sysUser) {
             throw new UsernameNotFoundException(s);
         }
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for (String role : sysUser.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(role));
+        for (String authority : sysUser.getAuthorities()) {
+            authorities.add(new SimpleGrantedAuthority(authority));
         }
         return new User(sysUser.getName(), sysUser.getPass(), authorities);
     }

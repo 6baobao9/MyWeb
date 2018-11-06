@@ -1,5 +1,7 @@
 package com.wy.springtest.controller;
 
+import com.wy.springtest.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,8 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/hello")
 public class HelloController {
+    @Autowired
+    UserService userService;
+
     @RequestMapping(path = "/say")
     public String say(@RequestParam(name = "name", defaultValue = "World") String name) {
+        userService.queryUserByName(name);
         return "Hello " + name;
     }
 

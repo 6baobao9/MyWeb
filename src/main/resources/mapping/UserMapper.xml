@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wy.springtest.data.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.wy.springtest.data.model.User">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="ACCOUNT" property="account" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="PASS" property="pass" jdbcType="VARCHAR"/>
+        <result column="ENABLE" property="enable" jdbcType="CHAR"/>
+        <result column="LOCKED" property="locked" jdbcType="CHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, ACCOUNT, NAME, PASS, ENABLE, LOCKED
+  </sql>
+
+    <!-- 这个方法是我自己加的 -->
+    <select id="selectAllUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from USER
+    </select>
+
+    <select id="selectByAccount" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from USER
+        where account = #{account, jdbcType=VARCHAR}
+    </select>
+
+</mapper>
