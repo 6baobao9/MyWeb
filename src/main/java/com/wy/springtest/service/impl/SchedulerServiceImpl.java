@@ -4,6 +4,7 @@ import com.wy.springtest.SpringUtil;
 import com.wy.springtest.service.SchedulerService;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Service
 public class SchedulerServiceImpl implements SchedulerService {
 
-    @Resource(name = "scheduler")
+    @Autowired
     private Scheduler scheduler;
 
     public void addJob() throws SchedulerException {
