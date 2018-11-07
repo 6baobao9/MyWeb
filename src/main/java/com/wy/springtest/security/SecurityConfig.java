@@ -66,8 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                System.out.println(encodedPassword + "---" + (String) rawPassword);
-                return encodedPassword.equals((String) rawPassword);
+                System.out.println(encodedPassword + "---" + rawPassword.toString());
+                return encodedPassword.equals(rawPassword.toString());
             }
         });
     }
