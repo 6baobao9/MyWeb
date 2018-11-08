@@ -1,6 +1,5 @@
 package com.wy.springtest.data.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -17,19 +16,6 @@ public class User {
     private String locked;
 
     private List<String> authorities;
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", account='" + account + '\'' +
-                ", name='" + name + '\'' +
-                ", pass='" + pass + '\'' +
-                ", enable='" + enable + '\'' +
-                ", locked='" + locked + '\'' +
-                ", authorities=" + authorities +
-                '}';
-    }
 
     public List<String> getAuthorities() {
         return authorities;
@@ -85,6 +71,19 @@ public class User {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", account='" + account + '\'' +
+                ", name='" + name + '\'' +
+                ", pass='" + pass + '\'' +
+                ", enable='" + enable + '\'' +
+                ", locked='" + locked + '\'' +
+                ", authorities=" + authorities +
+                '}';
     }
 
 }

@@ -19,11 +19,7 @@ public class UserCheckService {
         if (user == null) {
             throw new UsernameNotFoundException("1");
         }
-        List<String> role = new ArrayList<>();
-        if ("admin".equals(account)) {
-            role.add("ADMIN");
-        }
-        user.setAuthorities(role);
+        System.out.println(user);
         return user;
     }
 }
