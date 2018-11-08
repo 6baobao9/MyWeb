@@ -17,19 +17,6 @@ public class User {
 
     private List<String> authorities;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", account='" + account + '\'' +
-                ", name='" + name + '\'' +
-                ", pass='" + pass + '\'' +
-                ", enable='" + enable + '\'' +
-                ", locked='" + locked + '\'' +
-                ", authorities=" + authorities +
-                '}';
-    }
-
     public List<String> getAuthorities() {
         return authorities;
     }
@@ -84,6 +71,19 @@ public class User {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", account='" + account + '\'' +
+                ", name='" + name + '\'' +
+                ", pass='" + pass + '\'' +
+                ", enable='" + enable + '\'' +
+                ", locked='" + locked + '\'' +
+                ", authorities=" + authorities +
+                '}';
     }
 
 }

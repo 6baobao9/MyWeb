@@ -31,7 +31,13 @@ public class HelloController {
     @RequestMapping(path = "/sec")
     public String sayEverySec() throws SchedulerException {
         // 添加定时job，打印Hello Now
-        schedulerService.addJob();
+        schedulerService.addJob("helloJob", "wy");
+        return "Success";
+    }
+
+    @RequestMapping(path = "/add")
+    public String addJob(@RequestParam(name = "name") String name, @RequestParam(name = "group") String group) throws SchedulerException {
+        schedulerService.addJob(name, group);
         return "Success";
     }
 
@@ -44,5 +50,11 @@ public class HelloController {
     @RequestMapping(path = "/admin")
     public String sayToAdmin() {
         return "Hello Admin";
+    }
+
+    @RequestMapping(path = "/job/remove")
+    public String removeJob(@RequestParam(name = "name") String name, @RequestParam(name = "group") String group) throws SchedulerException {
+        schedulerService.removeJob(name, group);
+        return "Success";
     }
 }

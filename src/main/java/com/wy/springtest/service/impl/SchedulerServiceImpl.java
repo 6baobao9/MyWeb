@@ -4,9 +4,9 @@ import com.wy.springtest.SpringUtil;
 import com.wy.springtest.service.SchedulerService;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,16 +14,23 @@ import java.util.Set;
 @Service
 public class SchedulerServiceImpl implements SchedulerService {
 
-    @Resource(name = "scheduler")
+    @Autowired
     private Scheduler scheduler;
 
-    public void addJob() throws SchedulerException {
-        JobDetail jobDetail = createJob("helloJob", "wy");
-        Trigger trigger = createTrigger("helloJob", "wy");
+    public void addJob(String name, String group) throws SchedulerException {
+        JobDetail jobDetail = createJob(name, group);
+        Trigger trigger = createTrigger(name, group);
         if (!scheduler.isStarted()) {
             scheduler.start();
         }
         scheduler.scheduleJob(jobDetail, trigger);
+    }
+
+    public void removeJob(String name, String group) throws SchedulerException {
+        TriggerKey triggerKey = TriggerKey.triggerKey(name, group);
+        scheduler.pauseTrigger(triggerKey);
+        scheduler.unscheduleJob(triggerKey);
+        scheduler.deleteJob(JobKey.jobKey(name, group));
     }
 
     /**
@@ -41,8 +48,6 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     /**
      * 创建Cron触发器
-     *
-     * @return
      */
     public CronTrigger createTrigger(String name, String group) {
         String cron = "0/5 * * * * ?";
