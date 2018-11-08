@@ -3,6 +3,7 @@ package com.wy.springtest.security;
 import com.wy.springtest.data.model.User;
 import com.wy.springtest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,7 +16,9 @@ public class UserCheckService {
 
     public User getUserByName(String account) {
         User user = userService.queryUserByAccount(account);
-
+        if (user == null) {
+            throw new UsernameNotFoundException("1");
+        }
         List<String> role = new ArrayList<>();
         if ("admin".equals(account)) {
             role.add("ADMIN");

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -57,7 +58,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // 自定义密码加密类，使用原始密码进行密码验证
-        auth.userDetailsService(userDetailsService).passwordEncoder(new PasswordEncoder() {
+        auth.authenticationProvider(authenticationProvider());
+    }
+
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    private DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        // 不重新定义UsernameNotFoundException异常
+        provider.setHideUserNotFoundExceptions(false);
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(new PasswordEncoder() {
 
             @Override
             public String encode(CharSequence rawPassword) {
@@ -66,14 +79,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                System.out.println(encodedPassword + "---" + (String) rawPassword);
-                return encodedPassword.equals((String) rawPassword);
+                System.out.println(encodedPassword + "---" + rawPassword.toString());
+                return encodedPassword.equals(rawPassword.toString());
             }
         });
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return provider;
     }
 }
