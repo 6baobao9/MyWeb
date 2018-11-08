@@ -8,6 +8,7 @@
         <result column="PASS" property="pass" jdbcType="VARCHAR"/>
         <result column="ENABLE" property="enable" jdbcType="CHAR"/>
         <result column="LOCKED" property="locked" jdbcType="CHAR"/>
+        <collection column="ID" property="authorities" javaType="java.util.ArrayList" select="getAuthority"/>
     </resultMap>
     <sql id="Base_Column_List">
     ID, ACCOUNT, NAME, PASS, ENABLE, LOCKED
@@ -15,16 +16,45 @@
 
     <!-- 这个方法是我自己加的 -->
     <select id="selectAllUser" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from USER
+         SELECT
+            `user`.ID,
+            `user`.ACCOUNT,
+            `user`.`NAME`,
+            `user`.PASS,
+            `user`.`ENABLE`,
+            `user`.LOCKED,
+            authority.AUTHORITY
+        FROM
+            `user`,
+            authority
+        WHERE
+            `user`.ID = authority.USER_ID
     </select>
 
     <select id="selectByAccount" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from USER
-        where account = #{account, jdbcType=VARCHAR}
+        SELECT
+            `user`.ID,
+            `user`.ACCOUNT,
+            `user`.`NAME`,
+            `user`.PASS,
+            `user`.`ENABLE`,
+            `user`.LOCKED,
+            authority.AUTHORITY
+        FROM
+            `user`,
+            authority
+        WHERE
+            `user`.ID = authority.USER_ID
+        AND
+            `user`.ACCOUNT = #{account, jdbcType=VARCHAR}
     </select>
 
+    <select id="getAuthority" parameterType="java.lang.Integer" resultType="string">
+        SELECT
+            AUTHORITY
+        FROM
+            authority
+        WHERE
+            USER_ID = #{id, jdbcType=INTEGER}
+    </select>
 </mapper>
