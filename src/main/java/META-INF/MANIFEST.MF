@@ -40,4 +40,3 @@ Class-Path: spring-web-5.1.2.RELEASE.jar logback-classic-1.2.3.jar jav
  nsports-http-3.2.6.jar thymeleaf-extras-java8time-3.0.1.RELEASE.jar
 Main-Class: com.wy.springtest.SpringtestApplication
 
-
