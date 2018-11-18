@@ -1,15 +1,20 @@
 package com.wy.springtest.controller;
 
+import com.wy.springtest.SpringUtil;
+import com.wy.springtest.async.AsyncTask;
 import com.wy.springtest.service.SchedulerService;
 import com.wy.springtest.service.UserService;
 import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * spring跳转控制器，通过浏览器访问路径进入方法
@@ -17,15 +22,20 @@ import java.util.Set;
 @RestController
 @RequestMapping(path = "/hello")
 public class HelloController {
+    private static Logger logger = LoggerFactory.getLogger(HelloController.class);
+
     @Autowired
     UserService userService;
     @Autowired
     SchedulerService schedulerService;
 
     @RequestMapping(path = "/say")
-    public String say(@RequestParam(name = "name", defaultValue = "World") String name) {
+    public Result say(@RequestParam(name = "name", defaultValue = "World") String name) {
         userService.queryUserByName(name);
-        return "Hello " + name;
+        Result body = new Result();
+        body.setCode(Result.OK);
+        body.getBody().put("say", "Hello " + name);
+        return body;
     }
 
     @RequestMapping(path = "/sec")
@@ -41,20 +51,27 @@ public class HelloController {
         return "Success";
     }
 
-    @RequestMapping(path = "/queryAll")
-    public Set<String> queryAll() throws SchedulerException {
-        return schedulerService.getAllJob();
-    }
-
+    /**
+     * Spring Security 权限测试
+     */
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(path = "/admin")
     public String sayToAdmin() {
         return "Hello Admin";
     }
 
-    @RequestMapping(path = "/job/remove")
-    public String removeJob(@RequestParam(name = "name") String name, @RequestParam(name = "group") String group) throws SchedulerException {
-        schedulerService.removeJob(name, group);
-        return "Success";
+    /**
+     * Spring异步处理测试
+     */
+    @RequestMapping(path = "/async")
+    public Result async() throws InterruptedException, ExecutionException {
+        Result result = new Result();
+        AsyncTask asyncTask = SpringUtil.getBean(AsyncTask.class);
+        asyncTask.out();
+        Future<String> future = asyncTask.outWithResult();
+        String r = future.get();
+        result.setCode(Result.OK);
+        result.getBody().put("result", r);
+        return result;
     }
 }

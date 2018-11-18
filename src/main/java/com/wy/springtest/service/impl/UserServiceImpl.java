@@ -5,6 +5,7 @@ import com.wy.springtest.data.model.User;
 import com.wy.springtest.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,5 +36,13 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectByAccount(account);
 
         return user;
+    }
+
+    /**
+     * 测试Spring异步执行
+     */
+    @Async
+    public void out() {
+        logger.info(Thread.currentThread().getName());
     }
 }

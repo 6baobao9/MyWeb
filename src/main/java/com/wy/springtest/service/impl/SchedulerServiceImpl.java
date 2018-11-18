@@ -1,6 +1,7 @@
 package com.wy.springtest.service.impl;
 
 import com.wy.springtest.SpringUtil;
+import com.wy.springtest.controller.Result;
 import com.wy.springtest.service.SchedulerService;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
@@ -26,21 +27,29 @@ public class SchedulerServiceImpl implements SchedulerService {
         scheduler.scheduleJob(jobDetail, trigger);
     }
 
-    public void removeJob(String name, String group) throws SchedulerException {
+    public void removeJob(Result result, String name, String group) throws SchedulerException {
         TriggerKey triggerKey = TriggerKey.triggerKey(name, group);
         scheduler.pauseTrigger(triggerKey);
         scheduler.unscheduleJob(triggerKey);
         scheduler.deleteJob(JobKey.jobKey(name, group));
+
+        result.setCode(Result.OK);
+    }
+
+    public void workList(Result result) throws Exception {
+
+        result.getBody().put("jobs", getAllJob());
+        result.setCode(Result.OK);
     }
 
     /**
      * 获取全部定时任务的JobKey
      */
-    public Set<String> getAllJob() throws SchedulerException {
-        Set<String> jobKeys = new HashSet<>();
+    public Set<JobKey> getAllJob() throws SchedulerException {
+        Set<JobKey> jobKeys = new HashSet<>();
         for (String groupName : scheduler.getJobGroupNames()) {
             for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
-                jobKeys.add(jobKey.toString());
+                jobKeys.add(jobKey);
             }
         }
         return jobKeys;
@@ -54,8 +63,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 
         //表达式调度构建器(即任务执行的时间)
         CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cron);
-        //开始执行时间：1分钟后
-        Date future = DateBuilder.futureDate(1, DateBuilder.IntervalUnit.MINUTE);
+        //开始执行时间：十秒后
+        Date future = DateBuilder.futureDate(10, DateBuilder.IntervalUnit.SECOND);
         //结束时间：明天8点
         Date endTime = DateBuilder.tomorrowAt(8, 0, 0);
         System.out.println(endTime);

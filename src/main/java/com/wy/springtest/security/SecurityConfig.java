@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         //  允许所有用户访问"/"和"/index.html"
         http.authorizeRequests()
-                .antMatchers("/", "/index", "/resources/image/error/*").permitAll()
+                .antMatchers("/", "/index", "/resources/image/error/*", "/resources/js/*").permitAll()
                 .antMatchers("/service/*").permitAll()  // 开放webservice权限
                 .anyRequest()
                 .authenticated()   // 其他地址的访问均需验证权限

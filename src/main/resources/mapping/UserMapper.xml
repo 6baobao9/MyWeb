@@ -22,13 +22,9 @@
             `user`.`NAME`,
             `user`.PASS,
             `user`.`ENABLE`,
-            `user`.LOCKED,
-            authority.AUTHORITY
+            `user`.LOCKED
         FROM
-            `user`,
-            authority
-        WHERE
-            `user`.ID = authority.USER_ID
+            `user`
     </select>
 
     <select id="selectByAccount" resultMap="BaseResultMap">
@@ -38,15 +34,13 @@
             `user`.`NAME`,
             `user`.PASS,
             `user`.`ENABLE`,
-            `user`.LOCKED,
-            authority.AUTHORITY
+            `user`.LOCKED
         FROM
-            `user`,
-            authority
+            `user`
         WHERE
-            `user`.ID = authority.USER_ID
-        AND
             `user`.ACCOUNT = #{account, jdbcType=VARCHAR}
+        LIMIT
+            1
     </select>
 
     <select id="getAuthority" parameterType="java.lang.Integer" resultType="string">

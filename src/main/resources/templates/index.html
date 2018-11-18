@@ -1,16 +1,71 @@
 <!DOCTYPE html>
-
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html>
 <head>
-    <meta charset=" UTF-8">
-    <title sec:authentication="name"></title>
+    <meta charset="utf-8">
+    <title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+    <script src="/resources/js/vue.js"></script>
+    <script src="/resources/js/vue-resource.js"></script>
 </head>
 <body>
-<div sec:authorize="hasAuthority('ADMIN')">
-    This content is only shown to administrators.
+<div id="app">
+    <table>
+        <thead>
+        <tr>
+            <td>
+                Group
+            </td>
+            <td>
+                Name
+            </td>
+            <td></td>
+        </tr>
+        </thead>
+        <tr v-for="site in sites">
+            <td style="width: 50px">{{site.group}}</td>
+            <td style="width: 50px">{{site.name}}</td>
+            <td style="width: 50px">
+                <input type="button" value="删除" v-on:click="deleteWork(site)"/>
+            </td>
+        </tr>
+    </table>
+    <p>{{ message }}</p>
 </div>
-欢迎你,${user.username}<br/>
-<a href="/j_spring_security_logout">注销</a>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue.js!',
+            sites: [
+                {name: 'Runoob'},
+                {name: 'Google'},
+                {name: 'Taobao'}
+            ]
+        },
+        methods: {
+            AjaxGet: function () {
+                //发送get请求
+                this.$http.get('/work/workList').then(function (res) {
+                    this.sites = res.body["body"]["jobs"];
+                }, function () {
+                    console.log('请求失败处理');
+                });
+            },
+            deleteWork: function (site) {
+                this.$http.post(
+                    "/work/stop",
+                    site,
+                    {emulateJSON: true}
+                ).then((res) => {
+                    this.sites = res.body["body"]["jobs"];
+                }).catch(() => {
+                    console.log('请求失败处理');
+                })
+            }
+        }
+
+    });
+    vm.AjaxGet();
+</script>
 </body>
 </html>
