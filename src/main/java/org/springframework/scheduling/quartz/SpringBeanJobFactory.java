@@ -26,6 +26,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.lang.Nullable;
 
+/**
+ * 覆盖spring boot同路径下的SpringBeanJobFactory，使用spring bean做为job bean
+ */
 public class SpringBeanJobFactory extends AdaptableJobFactory implements ApplicationContextAware, SchedulerContextAware {
 
     @Nullable
