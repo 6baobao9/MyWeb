@@ -3276,7 +3276,7 @@
     };
 
     /**
-     * Subscriber interface.
+     * Subscriber example.
      * Will be called when a dependency changes.
      */
     Watcher.prototype.update = function update() {
@@ -3291,7 +3291,7 @@
     };
 
     /**
-     * Scheduler job interface.
+     * Scheduler job example.
      * Will be called by the scheduler.
      */
     Watcher.prototype.run = function run() {
@@ -4429,7 +4429,7 @@
     var SIMPLE_NORMALIZE = 1;
     var ALWAYS_NORMALIZE = 2;
 
-// wrapper function for providing a more flexible interface
+// wrapper function for providing a more flexible example
 // without getting yelled at by flow
     function createElement(
         context,
