@@ -6,10 +6,17 @@ import org.springframework.beans.factory.config.InstantiationAwareBeanPostProces
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter;
 
 public class InstantiationAwareBeanPostProcessorImpl extends InstantiationAwareBeanPostProcessorAdapter implements InstantiationAwareBeanPostProcessor {
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        // 执行顺序：5
-        System.out.println("Enter InstantiationAwareBeanPostProcessorBean.postProcessAfterInitialization()");
-        return bean;
+
+    public Object postProcessBeforeInstantiation(Class<?> bean, String beanName) throws BeansException {
+        // 执行顺序：1
+        System.out.println("Enter InstantiationAwareBeanPostProcessorBean.postProcessBeforeInstantiation()");
+        return null;
+    }
+
+    public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+        // 执行顺序：2
+        System.out.println("Enter InstantiationAwareBeanPostProcessorBean.postProcessAfterInstantiation()");
+        return true;
     }
 
     @Override
@@ -24,15 +31,9 @@ public class InstantiationAwareBeanPostProcessorImpl extends InstantiationAwareB
         return bean;
     }
 
-    public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
-        // 执行顺序：2
-        System.out.println("Enter InstantiationAwareBeanPostProcessorBean.postProcessAfterInstantiation()");
-        return true;
-    }
-
-    public Object postProcessBeforeInstantiation(Class<?> bean, String beanName) throws BeansException {
-        // 执行顺序：1
-        System.out.println("Enter InstantiationAwareBeanPostProcessorBean.postProcessBeforeInstantiation()");
-        return null;
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        // 执行顺序：5
+        System.out.println("Enter InstantiationAwareBeanPostProcessorBean.postProcessAfterInitialization()");
+        return bean;
     }
 }
