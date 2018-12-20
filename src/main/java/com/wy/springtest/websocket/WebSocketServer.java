@@ -3,6 +3,9 @@ package com.wy.springtest.websocket;
 import com.wy.springtest.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -19,7 +22,6 @@ public class WebSocketServer {
     private volatile static int onlineCount = 0;
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
     private static CopyOnWriteArraySet<WebSocketServer> webSocketSet = new CopyOnWriteArraySet<>();
-
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
 
@@ -39,7 +41,17 @@ public class WebSocketServer {
         }
 
         HttpSession httpSession = (HttpSession) sec.getUserProperties().get("session");
-        logger.info("用户名：" + httpSession.getId());
+
+        SecurityContext securityContext = (SecurityContext) httpSession.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+        if (securityContext == null) {
+            try {
+                session.close();
+            } catch (IOException e) {
+
+            }
+        }
+        User user = (User) securityContext.getAuthentication().getPrincipal();
+        logger.info("用户名：" + user.getUsername());
     }
 
     /**
