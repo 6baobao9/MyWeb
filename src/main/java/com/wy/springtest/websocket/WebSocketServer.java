@@ -1,10 +1,8 @@
 package com.wy.springtest.websocket;
 
-import com.wy.springtest.SpringUtil;
 import com.wy.springtest.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +11,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+@Component
 @ServerEndpoint(value = "/socket", configurator = HttpConfigurator.class)
 public class WebSocketServer {
     private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -23,9 +22,6 @@ public class WebSocketServer {
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
-
-    @Autowired
-    private SessionContext sessionContext;
 
     /**
      * 连接建立成功调用的方法
@@ -41,11 +37,8 @@ public class WebSocketServer {
         } catch (IOException e) {
             logger.error("WebSocket IO异常");
         }
-        if (sessionContext == null) {
-            sessionContext = SpringUtil.getBean(SessionContext.class);
-        }
-        String id = ((HttpSession) sec.getUserProperties().get("session")).getId();
-        HttpSession httpSession = sessionContext.get(id);
+
+        HttpSession httpSession = (HttpSession) sec.getUserProperties().get("session");
         logger.info("用户名：" + httpSession.getId());
     }
 
