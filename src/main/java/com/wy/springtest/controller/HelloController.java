@@ -2,6 +2,7 @@ package com.wy.springtest.controller;
 
 import com.wy.springtest.SpringUtil;
 import com.wy.springtest.async.AsyncTask;
+import com.wy.springtest.data.model.User;
 import com.wy.springtest.service.SchedulerService;
 import com.wy.springtest.service.UserService;
 import org.quartz.SchedulerException;
@@ -72,6 +73,19 @@ public class HelloController {
         String r = future.get();
         result.setCode(Result.OK);
         result.getBody().put("result", r);
+        return result;
+    }
+
+    @RequestMapping(path = "/register")
+    public Result register(@RequestParam("id") Integer id, @RequestParam("account") String account, @RequestParam("name") String name, @RequestParam("pass") String pass) {
+        Result result = new Result();
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setPass(pass);
+        user.setAccount(account);
+        userService.addUser(user);
+        result.setCode(Result.OK);
         return result;
     }
 }

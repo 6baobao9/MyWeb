@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
 
-    public User queryUserByName(String name);
+    User queryUserByName(String name);
 
-    public User queryUserByAccount(String account);
+    User queryUserByAccount(String account);
+
+    void addUser(User user);
 
     void out();
 }

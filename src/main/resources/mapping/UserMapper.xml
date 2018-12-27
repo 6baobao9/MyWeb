@@ -11,10 +11,8 @@
         <collection column="ID" property="authorities" javaType="java.util.ArrayList" select="getAuthority"/>
     </resultMap>
     <sql id="Base_Column_List">
-    ID, ACCOUNT, NAME, PASS, ENABLE, LOCKED
-  </sql>
-
-    <!-- 这个方法是我自己加的 -->
+      ID, ACCOUNT, NAME, PASS, ENABLE, LOCKED
+    </sql>
     <select id="selectAllUser" resultMap="BaseResultMap">
          SELECT
             `user`.ID,
@@ -51,4 +49,8 @@
         WHERE
             USER_ID = #{id, jdbcType=INTEGER}
     </select>
+    <insert id="insert" parameterType="com.wy.springtest.data.model.User" keyProperty="id" keyColumn="ID"
+            useGeneratedKeys="true">
+        INSERT INTO `user` (ID,ACCOUNT,NAME,PASS,ENABLE,LOCKED) VALUES (#{u.id},#{u.account},#{u.name},#{u.pass},#{u.enable},#{u.locked})
+    </insert>
 </mapper>
