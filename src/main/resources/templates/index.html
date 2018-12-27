@@ -29,7 +29,9 @@
         </tr>
     </table>
     <p>{{ message }}</p>
-    <a href="/websocket">WebSocket测试</a>
+    <div v-for="m in menu">
+        <a v-bind:src="{{m.path}}">{{m.title}}</a>
+    </div>
 </div>
 
 <script>
@@ -41,7 +43,8 @@
                 {name: 'Runoob'},
                 {name: 'Google'},
                 {name: 'Taobao'}
-            ]
+            ],
+            menu: []
         },
         methods: {
             AjaxGet: function () {
@@ -62,11 +65,21 @@
                 }).catch(() => {
                     console.log('请求失败处理');
                 })
+            },
+            queryMenu: function () {
+                this.$http.post(
+                    "/hello/menu",
+                    {},
+                    {emulateJSON: true}
+                ).then((res) => {
+                    this.menu = res.body["body"]["menu"];
+                })
             }
         }
 
     });
     vm.AjaxGet();
+    vm.queryMenu();
 </script>
 </body>
 </html>

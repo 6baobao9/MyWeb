@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wy.springtest.data.mapper.MenuMapper">
+    <resultMap id="BaseResultMap" type="com.wy.springtest.data.model.Menu">
+        <id column="ID" property="id" jdbcType="INTEGER"/>
+        <result column="PATH" property="path" jdbcType="VARCHAR"/>
+        <result column="TITLE" property="title" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, PATH, TITLE
+    </sql>
+    <select id="selectAllMenu" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        MENU
+    </select>
+</mapper>

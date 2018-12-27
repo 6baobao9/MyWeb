@@ -1,7 +1,5 @@
 package com.wy.springtest.controller;
 
-import com.wy.springtest.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +9,6 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
-    @Autowired
-    UserService userService;
 
     @RequestMapping(path = "/login")
     public String login() {

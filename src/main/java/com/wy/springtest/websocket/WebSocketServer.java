@@ -25,6 +25,8 @@ public class WebSocketServer {
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
 
+    public ThreadLocal<HttpSession> sessionThreadLocal = new ThreadLocal<>();
+
     /**
      * 连接建立成功调用的方法
      */
@@ -52,6 +54,7 @@ public class WebSocketServer {
         }
         User user = (User) securityContext.getAuthentication().getPrincipal();
         logger.info("用户名：" + user.getUsername());
+        sessionThreadLocal.set(httpSession);
     }
 
     /**

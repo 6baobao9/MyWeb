@@ -4,7 +4,7 @@ function WebSocketDemo(url) {
         console.log("Socket 连接成功");
     }
     this.socket.onmessage = function (msg) {
-        alert(msg);
+        alert("你好");
     }
 }
 
