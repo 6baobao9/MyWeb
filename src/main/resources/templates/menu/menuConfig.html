@@ -58,9 +58,8 @@
     var vm = new Vue({
         el: '#app',
         data: {
-            message: 'Hello Vue.js!',
             menus: [],
-            _menus: []
+            menus_del: []
         },
         methods: {
             queryMenu: function () {
@@ -75,7 +74,7 @@
                     "/hello/menu",
                     {
                         'menus': this.menus,
-                        '_menus': this._menus
+                        'menus_del': this.menus_del
                     }
                 ).then((res) => {
                     this.menus = res.body["body"]["menus"];
@@ -85,12 +84,12 @@
                 this.menus = this.menus.concat({path: '', title: ''});
             },
             del: function (id) {
-                if (!this._menus) {
-                    this._menus = [];
+                if (!this.menus_del) {
+                    this.menus_del = [];
                 }
                 for (let i in this.menus) {
                     if (this.menus[i].id == id) {
-                        this._menus = this._menus.concat(this.menus.splice(i, 1));
+                        this.menus_del = this.menus_del.concat(this.menus.splice(i, 1));
                     }
                 }
             }

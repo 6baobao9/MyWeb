@@ -1,6 +1,5 @@
 package com.wy.springtest.controller;
 
-import com.mysql.cj.xdevapi.JsonArray;
 import com.wy.springtest.SpringUtil;
 import com.wy.springtest.async.AsyncTask;
 import com.wy.springtest.data.model.Menu;
@@ -10,12 +9,10 @@ import com.wy.springtest.service.SchedulerService;
 import com.wy.springtest.service.UserService;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -119,7 +116,7 @@ public class HelloController {
     public static class MenuRequestBody {
         private List<Menu> menus;
 
-        private List<Menu> _menus;
+        private List<Menu> menus_del;
 
         public List<Menu> getMenus() {
             return menus;
@@ -129,12 +126,12 @@ public class HelloController {
             this.menus = menus;
         }
 
-        public List<Menu> get_menus() {
-            return _menus;
+        public List<Menu> getMenus_del() {
+            return menus_del;
         }
 
-        public void set_menus(List<Menu> _menus) {
-            this._menus = _menus;
+        public void setMenus_del(List<Menu> menus_del) {
+            this.menus_del = menus_del;
         }
     }
 }
