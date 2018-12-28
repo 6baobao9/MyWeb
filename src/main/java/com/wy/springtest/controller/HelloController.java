@@ -1,19 +1,21 @@
 package com.wy.springtest.controller;
 
+import com.mysql.cj.xdevapi.JsonArray;
 import com.wy.springtest.SpringUtil;
 import com.wy.springtest.async.AsyncTask;
+import com.wy.springtest.data.model.Menu;
 import com.wy.springtest.data.model.User;
+import com.wy.springtest.service.MenuService;
 import com.wy.springtest.service.SchedulerService;
 import com.wy.springtest.service.UserService;
 import org.quartz.SchedulerException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -23,12 +25,17 @@ import java.util.concurrent.Future;
 @RestController
 @RequestMapping(path = "/hello")
 public class HelloController {
-    private static Logger logger = LoggerFactory.getLogger(HelloController.class);
+
+    private final UserService userService;
+    private final SchedulerService schedulerService;
+    private final MenuService menuService;
 
     @Autowired
-    UserService userService;
-    @Autowired
-    SchedulerService schedulerService;
+    public HelloController(UserService userService, SchedulerService schedulerService, MenuService menuService) {
+        this.userService = userService;
+        this.schedulerService = schedulerService;
+        this.menuService = menuService;
+    }
 
     @RequestMapping(path = "/say")
     public Result say(@RequestParam(name = "name", defaultValue = "World") String name) {
@@ -77,6 +84,7 @@ public class HelloController {
     }
 
     @RequestMapping(path = "/register")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Result register(@RequestParam("id") Integer id, @RequestParam("account") String account, @RequestParam("name") String name, @RequestParam("pass") String pass) {
         Result result = new Result();
         User user = new User();
@@ -87,5 +95,46 @@ public class HelloController {
         userService.addUser(user);
         result.setCode(Result.OK);
         return result;
+    }
+
+    @GetMapping("/menu")
+    public Result getMenu() {
+        Result result = new Result();
+        List<Menu> menus = menuService.queryMenu();
+        result.setCode(Result.OK);
+        result.getBody().put("menus", menus);
+        return result;
+    }
+
+    @PostMapping("/menu")
+    public Result postMenu(@RequestBody MenuRequestBody body) {
+        Result result = new Result();
+        List<Menu> menus = body.getMenus();
+        menuService.addMenu(menus);
+        result.setCode(Result.OK);
+        result.getBody().put("menus", menus);
+        return result;
+    }
+
+    public static class MenuRequestBody {
+        private List<Menu> menus;
+
+        private List<Menu> _menus;
+
+        public List<Menu> getMenus() {
+            return menus;
+        }
+
+        public void setMenus(List<Menu> menus) {
+            this.menus = menus;
+        }
+
+        public List<Menu> get_menus() {
+            return _menus;
+        }
+
+        public void set_menus(List<Menu> _menus) {
+            this._menus = _menus;
+        }
     }
 }

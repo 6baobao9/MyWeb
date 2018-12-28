@@ -15,4 +15,11 @@
         FROM
         MENU
     </select>
+    <insert id="insert" parameterType="com.wy.springtest.data.model.Menu" keyProperty="menu.id" keyColumn="ID"
+            useGeneratedKeys="true">
+        INSERT INTO MENU (PATH,TITLE)VALUES(#{menu.path},#{menu.title})
+    </insert>
+    <insert id="update" parameterType="com.wy.springtest.data.model.Menu">
+        UPDATE MENU SET PATH=#{menu.path},TITLE=#{menu.title} WHERE ID=#{menu.id}
+    </insert>
 </mapper>

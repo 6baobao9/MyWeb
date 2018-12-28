@@ -3,6 +3,7 @@ package com.wy.springtest.controller;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
@@ -26,5 +27,10 @@ public class LoginController {
     @RequestMapping(path = "/index")
     public String index() {
         return "index.html";
+    }
+
+    @GetMapping("/menu/menuConfig")
+    public String menuConfig() {
+        return "menu/menuConfig.html";
     }
 }

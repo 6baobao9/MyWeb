@@ -29,8 +29,8 @@
         </tr>
     </table>
     <p>{{ message }}</p>
-    <div v-for="m in menu">
-        <a v-bind:src="{{m.path}}">{{m.title}}</a>
+    <div v-for="m in menus">
+        <a v-bind:href="m.path">{{m.title}}</a>
     </div>
 </div>
 
@@ -44,7 +44,7 @@
                 {name: 'Google'},
                 {name: 'Taobao'}
             ],
-            menu: []
+            menus: []
         },
         methods: {
             AjaxGet: function () {
@@ -67,13 +67,14 @@
                 })
             },
             queryMenu: function () {
-                this.$http.post(
-                    "/hello/menu",
-                    {},
-                    {emulateJSON: true}
+                this.$http.get(
+                    "/hello/menu"
                 ).then((res) => {
-                    this.menu = res.body["body"]["menu"];
+                    this.menus = res.body["body"]["menus"];
                 })
+            },
+            onMenuClick: function (path) {
+                window.location.href = path;
             }
         }
 

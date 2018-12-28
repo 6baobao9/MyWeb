@@ -18,4 +18,15 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> queryMenu() {
         return menuMapper.selectAllMenu();
     }
+
+    @Override
+    public void addMenu(List<Menu> menus) {
+        for (Menu menu : menus) {
+            if (menu.getId() == null) {
+                menuMapper.insert(menu);
+            } else {
+                menuMapper.update(menu);
+            }
+        }
+    }
 }

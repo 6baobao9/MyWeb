@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MenuService {
     List<Menu> queryMenu();
+
+    void addMenu(List<Menu> menus);
 }

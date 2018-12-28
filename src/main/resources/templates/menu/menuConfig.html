@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>菜单配置</title>
+    <script src="/resources/js/vue.js"></script>
+    <script src="/resources/js/vue-resource.js"></script>
+</head>
+<body>
+<div id="app">
+    <table>
+        <thead>
+        <tr>
+            <td style="width: 50px"></td>
+            <td style="width: 150px">
+                Title
+            </td>
+            <td style="width: 150px">
+                Path
+            </td>
+            <td style="width: 50px"></td>
+        </tr>
+        </thead>
+        <tr v-for="m in menus">
+            <td>
+                {{m.id}}
+            </td>
+            <td>
+                <input v-model="m.title"/>
+            </td>
+            <td>
+                <input v-model="m.path"/>
+            </td>
+            <td>
+                <div style="background-color: deepskyblue;width: 50px" v-on:click="del(m.id)">
+                    刪除
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>
+                <div style="background-color: deepskyblue;width: 50px" v-on:click="add()">
+                    新增
+                </div>
+            </td>
+            <td>
+                <div style="background-color: deepskyblue;width: 50px" v-on:click="saveMenu()">
+                    保存
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue.js!',
+            menus: [],
+            _menus: []
+        },
+        methods: {
+            queryMenu: function () {
+                this.$http.get(
+                    "/hello/menu"
+                ).then((res) => {
+                    this.menus = res.body["body"]["menus"];
+                })
+            },
+            saveMenu: function () {
+                this.$http.post(
+                    "/hello/menu",
+                    {
+                        'menus': this.menus,
+                        '_menus': this._menus
+                    }
+                ).then((res) => {
+                    this.menus = res.body["body"]["menus"];
+                })
+            },
+            add: function () {
+                this.menus = this.menus.concat({path: '', title: ''});
+            },
+            del: function (id) {
+                if (!this._menus) {
+                    this._menus = [];
+                }
+                for (let i in this.menus) {
+                    if (this.menus[i].id == id) {
+                        this._menus = this._menus.concat(this.menus.splice(i, 1));
+                    }
+                }
+            }
+        }
+    });
+    vm.queryMenu();
+</script>
+</body>
+</html>

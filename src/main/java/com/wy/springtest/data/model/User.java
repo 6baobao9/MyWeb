@@ -75,15 +75,19 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", account='" + account + '\'' +
-                ", name='" + name + '\'' +
-                ", pass='" + pass + '\'' +
-                ", enable='" + enable + '\'' +
-                ", locked='" + locked + '\'' +
-                ", authorities=" + authorities +
-                '}';
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("{id=").append(id)
+                .append(",account:'").append(account)
+                .append("',name:'").append(name)
+                .append("',pass:'").append(pass)
+                .append("',enable:'").append(enable)
+                .append("',locked:'").append(locked)
+                .append(",authorities:[");
+        for (String authority : authorities) {
+            buffer.append('\'').append(authority).append("',");
+        }
+        buffer.deleteCharAt(buffer.length() - 1);
+        buffer.append("]}");
+        return buffer.toString();
     }
-
 }
