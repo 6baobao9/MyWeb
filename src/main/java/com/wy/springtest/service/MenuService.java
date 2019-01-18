@@ -7,5 +7,5 @@ import java.util.List;
 public interface MenuService {
     List<Menu> queryMenu();
 
-    void addMenu(List<Menu> menus);
+    void modifyMenu(List<Menu> menus, List<Menu> menus_del);
 }
