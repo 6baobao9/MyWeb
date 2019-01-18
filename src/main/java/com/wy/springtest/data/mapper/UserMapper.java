@@ -11,6 +11,8 @@ public interface UserMapper {
 
     User selectByAccount(@Param("account") String account);
 
-    void insert(@Param("u") User u);
+    int insert(@Param("u") User u);
+
+    int update(@Param("u") User u);
 }
 

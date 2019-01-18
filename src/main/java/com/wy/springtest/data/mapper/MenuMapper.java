@@ -13,5 +13,7 @@ public interface MenuMapper {
     int insert(@Param("menu") Menu menu);
 
     int update(@Param("menu") Menu menu);
+
+    int delete(@Param("menu") Menu menu);
 }
 
