@@ -49,8 +49,11 @@
         WHERE
             USER_ID = #{id, jdbcType=INTEGER}
     </select>
-    <insert id="insert" parameterType="com.wy.springtest.data.model.User" keyProperty="id" keyColumn="ID"
+    <insert id="insert" parameterType="com.wy.springtest.data.model.User" keyProperty="u.id" keyColumn="ID"
             useGeneratedKeys="true">
         INSERT INTO `user` (ID,ACCOUNT,NAME,PASS,ENABLE,LOCKED) VALUES (#{u.id},#{u.account},#{u.name},#{u.pass},#{u.enable},#{u.locked})
     </insert>
+    <update id="update" parameterType="com.wy.springtest.data.model.User">
+        UPDATE `user` SET ID=#{u.id},ACCOUNT=#{u.account},NAME=#{u.name},PASS=#{u.pass},ENABLE=#{u.enable},LOCKED=#{u.locked} WHERE ID=#{u.id}
+    </update>
 </mapper>
