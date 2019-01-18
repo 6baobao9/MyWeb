@@ -43,7 +43,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = false)
     public void addUser(User user) {
-        userMapper.insert(user);
+        if (user.getId() == null) {
+            userMapper.insert(user);
+        } else {
+            userMapper.update(user);
+        }
+
     }
 
     /**

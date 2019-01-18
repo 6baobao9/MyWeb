@@ -33,13 +33,13 @@ public class SchedulerServiceImpl implements SchedulerService {
         scheduler.unscheduleJob(triggerKey);
         scheduler.deleteJob(JobKey.jobKey(name, group));
 
-        result.setCode(Result.OK);
+        result.setCode(Result.CODE.OK);
     }
 
     public void workList(Result result) throws Exception {
 
         result.getBody().put("jobs", getAllJob());
-        result.setCode(Result.OK);
+        result.setCode(Result.CODE.OK);
     }
 
     /**
