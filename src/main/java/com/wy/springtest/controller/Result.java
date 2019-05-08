@@ -4,10 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Result {
-    public final static String OK = "00";
-    public final static String ERR = "01";
-
-    private String code;
+    private CODE code;
     private String reason;
     private Map<String, Object> body;
 
@@ -23,15 +20,33 @@ public class Result {
         body = new HashMap<>();
     }
 
-    public String getCode() {
+    public CODE getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(CODE code) {
         this.code = code;
     }
 
     public Map<String, Object> getBody() {
         return body;
+    }
+
+    public enum CODE {
+        OK("00"), ERR("01");
+        private final String code;
+
+        CODE(String code) {
+            this.code = code;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        @Override
+        public String toString() {
+            return code;
+        }
     }
 }

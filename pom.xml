@@ -39,6 +39,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-openid</artifactId>
+            <version>5.1.2.RELEASE</version>
+        </dependency>
         <!-- WebSocket -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -119,6 +124,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

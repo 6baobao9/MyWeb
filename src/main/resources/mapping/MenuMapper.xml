@@ -19,7 +19,10 @@
             useGeneratedKeys="true">
         INSERT INTO MENU (PATH,TITLE)VALUES(#{menu.path},#{menu.title})
     </insert>
-    <insert id="update" parameterType="com.wy.springtest.data.model.Menu">
+    <update id="update" parameterType="com.wy.springtest.data.model.Menu">
         UPDATE MENU SET PATH=#{menu.path},TITLE=#{menu.title} WHERE ID=#{menu.id}
-    </insert>
+    </update>
+    <delete id="delete" parameterType="com.wy.springtest.data.model.Menu">
+        DELETE FROM MENU WHERE ID=#{menu.id}
+    </delete>
 </mapper>

@@ -46,7 +46,7 @@ public class WorkController {
         try {
             schedulerService.workList(result);
         } catch (Exception e) {
-            result.setCode(Result.ERR);
+            result.setCode(Result.CODE.ERR);
             result.setReason(e.getMessage());
         }
         return result;
@@ -58,7 +58,7 @@ public class WorkController {
         try {
             schedulerService.removeJob(result, jobKey.get("name"), jobKey.get("group"));
         } catch (Exception e) {
-            result.setCode(Result.ERR);
+            result.setCode(Result.CODE.ERR);
             result.setReason(e.getMessage());
         }
         return result;

@@ -38,7 +38,7 @@ public class HelloController {
     public Result say(@RequestParam(name = "name", defaultValue = "World") String name) {
         userService.queryUserByName(name);
         Result body = new Result();
-        body.setCode(Result.OK);
+        body.setCode(Result.CODE.OK);
         body.getBody().put("say", "Hello " + name);
         return body;
     }
@@ -75,7 +75,7 @@ public class HelloController {
         asyncTask.out();
         Future<String> future = asyncTask.outWithResult();
         String r = future.get();
-        result.setCode(Result.OK);
+        result.setCode(Result.CODE.OK);
         result.getBody().put("result", r);
         return result;
     }
@@ -90,7 +90,7 @@ public class HelloController {
         user.setPass(pass);
         user.setAccount(account);
         userService.addUser(user);
-        result.setCode(Result.OK);
+        result.setCode(Result.CODE.OK);
         return result;
     }
 
@@ -98,8 +98,10 @@ public class HelloController {
     public Result getMenu() {
         Result result = new Result();
         List<Menu> menus = menuService.queryMenu();
-        result.setCode(Result.OK);
+        result.setCode(Result.CODE.OK);
         result.getBody().put("menus", menus);
+        LoginController loginController = new LoginController();
+        loginController.login();
         return result;
     }
 
@@ -107,8 +109,9 @@ public class HelloController {
     public Result postMenu(@RequestBody MenuRequestBody body) {
         Result result = new Result();
         List<Menu> menus = body.getMenus();
-        menuService.addMenu(menus);
-        result.setCode(Result.OK);
+        List<Menu> menus_del = body.getMenus_del();
+        menuService.modifyMenu(menus, menus_del);
+        result.setCode(Result.CODE.OK);
         result.getBody().put("menus", menus);
         return result;
     }
